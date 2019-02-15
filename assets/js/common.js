@@ -41,8 +41,11 @@ $(document).ready(function () {
             data: data,
             dataType: 'json',
             beforeSend: function (ui) {
-              $('.progress').show();
+                $('.progress').show();
                 $('#route').hide();
+                $('#train_info').html("");
+                $('h2').hide();
+                $('#route').DataTable().destroy();
             },
             success: function (dataResponse) {
                 $('.progress').hide();
@@ -68,7 +71,7 @@ $(document).ready(function () {
                     $('h2').text('Маршрут');
                     $('#train_info').html('Поезд: ' + dataResponse.train_description.number + "<br/>Основной маршрут:" + dataResponse.train_description.from + " - " + dataResponse.train_description.to);
                     $('#route').show();
-                    $('#route').DataTable().destroy();
+
                     $('#route').DataTable( {
                         data: data,
                         ordering:  false,
