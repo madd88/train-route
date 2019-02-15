@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Обработчик ajax запросов
+ */
+
 require_once "config.php";
 
 $TrainSoapClient = new core\Classes\TrainSoapClient();
@@ -16,7 +20,6 @@ switch ($_REQUEST['action']){
             date("d", strtotime($_REQUEST['date'])),
             date("m", strtotime($_REQUEST['date']))
         );
-
         echo json_encode($TrainSoapClient->getRoute($_REQUEST['train'],$params));
         break;
     default:

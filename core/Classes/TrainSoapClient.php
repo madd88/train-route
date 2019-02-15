@@ -36,6 +36,15 @@ class TrainSoapClient
 
     }
 
+    /**
+     * Получаем маршрут поезда
+     *
+     * @param string            $train  - номер поезда
+     * @param WsTrainTravelInfo $params - параметры поиска
+     *
+     * @return array
+     */
+
     public function getRoute($train, WsTrainTravelInfo $params){
 
         try{
