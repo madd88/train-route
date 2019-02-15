@@ -40,12 +40,60 @@ $(document).ready(function () {
             url: '/core/ajax.php',
             data: data,
             dataType: 'json',
-            success: function (data) {
-                if(data.error){
-                    alert(data.error);
+            beforeSend: function (ui) {
+              $('.progress').show();
+                $('#route').hide();
+            },
+            success: function (dataResponse) {
+                $('.progress').hide();
+                if(dataResponse.error){
+                    $.notify(dataResponse.error, "error");
                 }
                 else{
-                    alert(data.route_list.stop_list[0].stop);
+
+                    var cityFrom   = $("#city_from").val();
+                    var cityTo     = $("#city_to").val();
+                    var fullRoute  = dataResponse.route_list.stop_list;
+                    var startIndex = 0;
+                    var stopIndex  = -1;
+
+                    $.each(fullRoute, function (index, value) {
+                        if (value.stop == cityFrom) startIndex = index;
+                        if (value.stop == cityTo) stopIndex = ++index;
+                    });
+                    stopIndex = (stopIndex < 0) ? fullRoute.length - 1  : stopIndex;
+                    var spl = fullRoute.slice(startIndex, stopIndex);
+                    var data = (spl.length > 0) ? spl : fullRoute;
+
+                    $('h2').text('Маршрут');
+                    $('#train_info').html('Поезд: ' + dataResponse.train_description.number + "<br/>Основной маршрут:" + dataResponse.train_description.from + " - " + dataResponse.train_description.to);
+                    $('#route').show();
+                    $('#route').DataTable().destroy();
+                    $('#route').DataTable( {
+                        data: data,
+                        ordering:  false,
+                        pageLength: 50,
+                        columns: [
+                            { data: 'stop' },
+                            { data: 'arrival_time' },
+                            { data: 'departure_time' },
+                            { data: 'stop_time' }
+                        ],
+                        language: {
+                            "zeroRecords": "Ничего не найдено",
+                            "info": "Страница _PAGE_ из _PAGES_",
+                            "lengthMenu": "Показать _MENU_ на странице",
+                            "infoEmpty": "Записей нет",
+                            "search": "Поиск",
+                            "paginate": {
+                                "first":      "Первая",
+                                "last":       "Последняя",
+                                "next":       "Вперед",
+                                "previous":   "Назад"
+                            },
+                        }
+                    } );
+                    console.log(result);
                 }
             }
         });
