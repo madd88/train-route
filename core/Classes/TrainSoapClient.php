@@ -2,23 +2,21 @@
 
 namespace core\Classes;
 
+use core\Entity\WsAuth;
+use core\Entity\WsTrainTravelInfo;
+
 class TrainSoapClient
 {
     public $handler = null;
 
     public $wsdl = "https://api.starliner.ru/Api/connect/TrainAPI?wsdl";
 
-    public $auth = [
-        'login'        => 'test',
-        'psw'          => 'bYKoDO2it',
-        'terminal'     => 'htk_test',
-        'represent_id' => '22400'
-    ];
+    private $auth;
 
     public function __construct()
     {
-        $this->handler = new \SoapClient($this->wsdl, $this->auth);
-
+        $this->auth = new WsAuth(LOGIN, PASSWD, TERMINAL, REPRESENT);
+        $this->handler = new \SoapClient($this->wsdl);
     }
 
     /**
@@ -38,7 +36,7 @@ class TrainSoapClient
 
     }
 
-    public function getRoute($train,$params){
+    public function getRoute($train, WsTrainTravelInfo $params){
 
         try{
             $result = $this->handler->trainRoute($this->auth, $train, $params);
