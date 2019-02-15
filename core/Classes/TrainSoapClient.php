@@ -1,6 +1,8 @@
 <?php
 
-class TrainSoapClient extends SoapClient
+namespace core\Classes;
+
+class TrainSoapClient
 {
     public $handler = null;
 
@@ -15,7 +17,7 @@ class TrainSoapClient extends SoapClient
 
     public function __construct()
     {
-        $this->handler = new SoapClient($this->wsdl, $this->auth);
+        $this->handler = new \SoapClient($this->wsdl, $this->auth);
 
     }
 
@@ -42,7 +44,7 @@ class TrainSoapClient extends SoapClient
             $result = $this->handler->trainRoute($this->auth, $train, $params);
         }
 
-        catch (SoapFault $exception){
+        catch (\SoapFault $exception){
             $result = ['error' => $exception->getMessage()];
         }
 

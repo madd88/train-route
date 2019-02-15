@@ -2,9 +2,7 @@
 
 require_once "config.php";
 
-require_once (__DIR__ . "/TrainSoapClient.php");
-
-$TrainSoapClient = new TrainSoapClient();
+$TrainSoapClient = new core\Classes\TrainSoapClient();
 
 switch ($_REQUEST['action']){
     case 'getCities':
