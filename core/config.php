@@ -2,9 +2,9 @@
 
 define('ROOT', $_SERVER['DOCUMENT_ROOT']);
 define('LOGIN', 'test');
-define('PASSWD', 'bYKoDO2it');
-define('TERMINAL', 'htk_test');
-define('REPRESENT', '22400');
+define('PASSWD', '');
+define('TERMINAL', '');
+define('REPRESENT', '');
 
 spl_autoload_register(function ($name) {
     try{
